@@ -1,0 +1,5 @@
+include "std.porth"
+
+proc main in
+	8 4 5 + - 4 9 3 / + * 2 -7 * 3 + print print
+end
