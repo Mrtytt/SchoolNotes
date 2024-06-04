@@ -40,6 +40,7 @@ def main():
     
     # Burada zaman fonksiyonunu kullanarak rastgele sayı üretiyoruz.
     random.seed(time.time())
+    
     # Burada mesajın türünü ve içeriğini belirliyoruz.
     shared_msg.type = random.randint(0, TYPES - 1)
     shared_msg.content = f"My message, type {shared_msg.type}, num {random.randint(0, 1000000)}".encode()

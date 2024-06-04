@@ -29,7 +29,7 @@ def main():
         t.start()
         i += 1
 
-    # Tüm iş parçacıkların bitmesii beklemek için join() fonksiyonunu kullanıyoruz
+    # Tüm iş parçacıkların bitmesi beklemek için join() fonksiyonunu kullanıyoruz
     for t in threads:
         t.join()
 

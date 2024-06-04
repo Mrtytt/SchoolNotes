@@ -30,3 +30,18 @@ def main():
 
 if __name__ == "__main__": # Main fonksiyonunu çağırırız. 
     main()
+
+"""
+Bu Python kodu, çoklu iş parçacığı 
+kullanarak çeşitli dillerde "Hello World" 
+mesajlarını ekrana yazdırır. İlk olarak, farklı 
+dillerde mesajları içeren bir liste oluşturulur. 
+Ardından, her bir mesaj için bir iş parçacığı oluşturan 
+'print_hello' fonksiyonu tanımlanır. Bu fonksiyon, 
+bir saniye bekledikten sonra iş parçacığının kimliği ve 
+mesajı ekrana yazdırır. 'main' fonksiyonunda, tüm mesajlar için 
+iş parçacıkları oluşturulup başlatılır ve 
+her bir iş parçacığının tamamlanması beklenir. En sonunda, 
+'if name == "main":' koşulu ile 'main' fonksiyonu çağrılır ve 
+program çalıştırıldığında iş parçacıkları eşzamanlı olarak mesajları ekrana yazdırır.
+"""

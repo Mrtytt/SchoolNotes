@@ -19,7 +19,7 @@ def main():
     # Burada paylaşılan bellek segmentinin boyunu hesaplıyoruz. Tek bir mesajı saklamak için yeterli bir boyut belirlenir.
     shared_seg_size = 1 * struct.calcsize(Msg)  
 
-    # "Bellek segemntini açıyoruz, O_RDWR fonksiyonu segmenti okuma ve yazma işlemi açar.
+    # Bellek segmentini açıyoruz, O_RDWR fonksiyonu segmenti okuma ve yazma işlemi açar.
     shmfd = os.open(SHMOBJ_PATH, os.O_RDWR)
     if shmfd < 0:
         print("In shm_open()")

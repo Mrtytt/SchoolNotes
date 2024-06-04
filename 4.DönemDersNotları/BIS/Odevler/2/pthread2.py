@@ -39,3 +39,16 @@ def main():
 if __name__ == "__main__":
     main()
 
+"""
+Açıklamalar:
+1. messages listesi: Her bir "Hello World" mesajını farklı dillerde içeren bir liste oluşturuluyor.
+2. ThreadData Sınıfı: İş parçacıkları için thread_id, sum ve message değerlerini tutan bir sınıf oluşturuluyor.
+3. print_hello Fonksiyonu: Bu fonksiyon, bir ThreadData örneğini alıyor, 1 saniye uyuyor ve ardından o iş parçacığının bilgilerini ekrana yazdırıyor.
+4. main Fonksiyonu: 
+    - İş parçacıklarını tutmak için bir liste oluşturuluyor.
+    - Toplam değeri toplam olarak başlatılıyor.
+    - Mesajlar listesi üzerinde iterasyon yapılarak her bir mesaj için ThreadData örneği oluşturuluyor.
+    - Her bir ThreadData örneği ile yeni bir iş parçacığı başlatılıyor ve bu iş parçacığı listeye ekleniyor.
+    - Son olarak, tüm iş parçacıklarının bitmesini beklemek için join fonksiyonu kullanılıyor.
+5. Programın Ana Kısmı: main fonksiyonu, programın çalıştırıldığı kısımdır ve doğrudan çalıştırıldığında main fonksiyonunu çağırır.
+"""
