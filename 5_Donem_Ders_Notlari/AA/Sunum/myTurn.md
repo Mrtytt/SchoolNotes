@@ -1,109 +1,113 @@
-# Dijkstra Algoritması ve En Kısa Yol Hesaplama Fonksiyonları
+# **Graf İşleme ve Kısayol Hesaplama Algoritması**
 
-## Dijkstra Algoritması Hakkında
-Dijkstra algoritması, bir graf üzerindeki düğümler arasında en kısa yolları hesaplamak için kullanılan bir algoritmadır. Ağırlıklı graflar üzerinde çalışan bu algoritma, özellikle yönlendirilmiş ve pozitif ağırlıklara sahip grafiklerde oldukça etkilidir. 
+## 1. Ön İşleme Fonksiyonu: `preprocess`
 
-## 1. Dijkstra Fonksiyonu
-### Amaç:
-Bu fonksiyon, bir graf üzerindeki tüm düğümlere olan en kısa yolları ve ilgili ebeveyn bilgilerini hesaplar.
+Fonksiyonun amacı, bir grafın düğümleri arasındaki kısayolları önceden hesaplayarak daha hızlı yol sorgulama yapılmasını sağlamaktır.
 
-### Kod:
 ```python
-def dijkstra(self, start_vertex):
-    vertices = list(self.G.nodes())
+def preprocess(self):
+    node_pq = self.get_node_order_edge_difference()
+    order = 0
 
-    visited = set()
-    parents = {}
-    adj = {v: [] for v in vertices}
-    exist = {v: 0 for v in vertices}
-    D = {v: float('inf') for v in vertices}
+    while node_pq:
+        _, v = heapq.heappop(node_pq)
 
-    parents[start_vertex] = start_vertex
-    D[start_vertex] = 0
-    exist[start_vertex] = 1
-    pq = [(0, start_vertex)]
-
-    while pq:
-        current_cost, current_vertex = heapq.heappop(pq)
-        if current_vertex in visited:
+        new_dif = self.edge_difference(v)
+        if node_pq and new_dif > node_pq[0][0]:
+            heapq.heappush(node_pq, (new_dif, v))
             continue
-        visited.add(current_vertex)
 
-        current_neighbors = list(self.G[current_vertex])
-        for neighbor in current_neighbors:
-            old_cost = D[neighbor]
-            new_cost = D[current_vertex] + self.times_all[current_vertex][neighbor]
-            if new_cost < old_cost:
-                parents[neighbor] = current_vertex
-                exist[neighbor] = exist[current_vertex]
-                if neighbor not in adj[current_vertex]:
-                    adj[current_vertex].append(neighbor)
-                D[neighbor] = new_cost
-                heapq.heappush(pq, (new_cost, neighbor))
+        order += 1
+        if order % 500 == 0:
+            print(f"..........Contracting {order}/4397 nodes..........")
 
-    self.shortest_adj[start_vertex] = adj
-    self.shortest_cnt[start_vertex] = exist
-    return D, parents
+        self.order_of[v] = order
+        self.node_order[order] = v
+
+        for u in list(self.G.predecessors(v)):
+            if u in self.order_of:
+                continue
+
+            P = {}
+            for w in list(self.G.neighbors(v)):
+                if w in self.order_of:
+                    continue
+                P[w] = self.times_all[u][v] + self.times_all[v][w]
+
+            if not P:
+                continue
+
+            P_max = max(P.values())
+            D = self.local_dijkstra_without_v(u, v, P_max)
+
+            for w in list(self.G.neighbors(v)):
+                if w in self.order_of:
+                    continue
+
+                if D[w] > P[w]:
+                    if self.G.has_edge(u, w):
+                        self.G.get_edge_data(u, w)[0]['shortcut_node'] = v
+                    else:
+                        self.G.add_edge(u, w, shortcut_node=v)
+                        self.times_all[u][w] = P[w]
+
+    print('Preprocess Done!')
 ```
 
-### Adımlar:
-1. **Graf Bilgilerinin Hazırlanması:**
-   - `vertices`: Grafın tüm düğümlerini alır.
-   - `visited`: Ziyaret edilen düğümlerin kaydı tutulur.
-   - `parents`: Her düğüm için bir önceki düğüm bilgisi saklanır.
-   - `D`: Başlangıç düğümünden diğer düğümlere olan mesafeleri temsil eder.
+### Detaylı Açıklama:
+1. **Düğüm Öncelik Sırası (`node_pq`)**:
+   - Bu yapı, düğümlerin işlenme sırasını belirlemek için bir öncelik sırasıdır.
+   - `get_node_order_edge_difference` fonksiyonu, her düğümün bağlantı farkını hesaplar.
 
-2. **Başlangıç Değerleri Ayarlama:**
-   - Başlangıç düğümü için maliyet `0` olarak ayarlanır.
-   - Öncelikli kuyruk (priority queue) başlatılır.
+2. **Düğüm İşleme**:
+   - Her düğüm için `heapq` kullanılarak işlem yapılır.
+   - Eğer düğümün bağlantı farkı değişmişse, düğüm yeniden sıraya eklenir.
 
-3. **Ana Döngü:**
-   - Kuyruktaki en düşük maliyetli düğüm işlenmek üzere çıkarılır.
-   - Düğümün komşuları kontrol edilir ve daha düşük maliyetli yollar bulunursa bu bilgiler güncellenir.
+3. **Kısayol Hesaplama**:
+   - Bir düğüm işlenirken, tüm komşuları arasındaki en kısa yollar hesaplanır.
+   - Komşular arasındaki kısayollar güncellenir veya yeni kenarlar eklenir.
 
-4. **Sonuç:**
-   - En kısa mesafeler `D` ve ebeveyn bilgileri `parents` olarak döndürülür.
+4. **Çıktılar**:
+   - Her 500 düğümde bir ilerleme durumu kullanıcıya yazdırılır.
+   - İşlem tamamlandığında "Preprocess Done!" mesajı verilir.
 
 ---
 
-## 2. get_shortest_path_dijkstra Fonksiyonu
-### Amaç:
-Bu fonksiyon, bir graf üzerinde iki düğüm arasındaki en kısa yolu ve toplam maliyetini bulur.
+## 2. En Kısa Yol Hesaplama Fonksiyonu: `get_shortest_path_CH`
 
-### Kod:
+Bu fonksiyon, ön işleme tamamlandıktan sonra iki düğüm arasındaki en kısa yolu hesaplamak için kullanılır.
+
 ```python
-def get_shortest_path_dijkstra(self, start_stop, end_stop):
-    shortest_time, parents = self.dijkstra(start_stop)
-    path = self.get_path(end_stop, parents)
-    if not path:
-        print(f'No path found from {start_stop} to {end_stop}!')
-        return 0, path
-    # print(shortest_time[end_stop], path)
-    return shortest_time[end_stop], path
+def get_shortest_path_CH(self, source_node, target_node):
+    t1 = time.time()
+    self.preprocess()
+    t2 = time.time()
+    print("Preprocessing time:", t2 - t1)
+
+    t, p = self.bidirectional_dijkstra(source_node, target_node)
+    t3 = time.time()
+    print('Query time: ', t3 - t2)
+
+    if not p:
+        print(f'No path found from {source_node} to {target_node}!')
+        return 0, p
+
+    print(t, p)
+    return t, p
 ```
 
-### Adımlar:
-1. **Dijkstra Fonksiyonunu Çağırma:**
-   - `self.dijkstra(start_stop)`, başlangıç düğümünden diğer düğümlere olan en kısa mesafeleri ve ebeveyn bilgilerini hesaplar.
+### Detaylı Açıklama:
+1. **Zaman Ölçümleri**:
+   - İlk olarak ön işleme (`preprocess`) süresi ölçülür.
+   - Daha sonra sorgu süresi hesaplanır.
 
-2. **Yolun Belirlenmesi:**
-   - `self.get_path(end_stop, parents)`, ebeveyn bilgilerini kullanarak başlangıçtan bitişe giden yolu oluşturur.
+2. **İki Yönlü Dijkstra Algoritması**:
+   - Hem başlangıç hem de hedef düğümden algoritma çalıştırılarak süre kısaltılır.
 
-3. **Yol Kontrolü:**
-   - Eğer bir yol bulunamazsa, uygun bir mesaj yazdırılır ve toplam maliyet `0` olarak döndürülür.
+3. **Hata Durumu**:
+   - Eğer hedef düğüme ulaşılamazsa, kullanıcıya "No path found" mesajı verilir.
 
-4. **Sonuç:**
-   - Toplam maliyet ve izlenecek yol döndürülür.
+4. **Çıktılar**:
+   - En kısa yolun süresi ve rota üzerindeki düğümler döndürülür.
 
----
-
-## Genel Kullanım Alanları:
-- Bu fonksiyonlar, bir graf üzerindeki rotaları analiz etmek ve belirli düğümler arasındaki en kısa yolu bulmak için kullanılır.
-- **Uygulama Alanları:** Harita uygulamaları, ağ analizleri, lojistik planlamaları, trafik yönetimi ve rota optimizasyonudur.
-
----
-
-## Notlar:
-- Kod yapısı Python programlama diline özgüdür ve `heapq` modülü kullanılarak öncelikli kuyruk işlemleri gerçekleştirilmiştir.
-- Gerçek hayatta kullanılacak grafik verileri, ağırlık bilgileriyle birlikte doğru bir şekilde modele entegre edilmelidir.
 
