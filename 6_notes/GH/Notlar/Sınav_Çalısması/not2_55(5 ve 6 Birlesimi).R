@@ -2,7 +2,8 @@
 # VERİ TİPLERİ (Data Types)
 # -------------------------------------
 # R'de yaygın olarak kullanılan 4 temel veri tipi vardır:
-# numeric (sayısal), logical (mantıksal), character (karakter) ve integer (tam sayı)
+# numeric (sayısal), logical (mantıksal),
+# character (karakter) ve integer (tam sayı)
 
 # Sayısal vektör
 x <- c(1, 3, 2, 10, 5)
@@ -25,7 +26,8 @@ class(x)
 # -------------------------------------
 # VERİ OKUMA VE YAZMA (Reading and Writing Data)
 # -------------------------------------
-# Genom verileri çoğunlukla BED dosya formatında olur (kromozom, başlangıç, bitiş, yön, skor gibi sütunlarla)
+# Genom verileri çoğunlukla BED dosya formatında olur
+# (kromozom, başlangıç, bitiş, yön, skor gibi sütunlarla)
 # BED formatı birçok genom tarayıcısı tarafından desteklenir (örneğin UCSC)
 
 # read.table() fonksiyonu ile tablo formatında veri okunabilir
@@ -34,12 +36,12 @@ enhancerFilePath <- system.file("extdata", "subset.enhancers.hg18.bed", package=
 cpgiFilePath <- system.file("extdata", "subset.cpgi.hg18.bed", package="compGenomRData")
 
 # BED dosyalarını oku
-enh.df <- read.table(enhancerFilePath, header = FALSE)
-cpgi.df <- read.table(cpgiFilePath, header = FALSE)
+enh_df <- read.table(enhancerFilePath, header = FALSE)
+cpgi_df <- read.table(cpgiFilePath, header = FALSE)
 
 # İlk satırlara bakarak veriyi incele
-head(enh.df)
-head(cpgi.df)
+head(enh_df)
+head(cpgi_df)
 
 # Veriyi dosyaya yazma (write.table())
 # NOT: eval=FALSE olduğu için çalıştırılmadan örnek gösterimdir

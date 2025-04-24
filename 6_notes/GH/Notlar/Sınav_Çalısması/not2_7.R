@@ -17,16 +17,14 @@ x <- rnorm(50)
 hist(x, 
      main="Histogram: Normal Dagilimdan Ornekleme", # Grafik basligi
      xlab="Degerler",   # X ekseni etiketi
-     col="skyblue")     # Cubuk rengi
+     col="skyblue")     # Cubuk rengi # nolint
 
 # -------------------------------------
 # Renk ve Baslik Ozellestirme
 # -------------------------------------
 
 # Histogrami bu kez kirmizi renkte ve farkli bir baslikla cizelim
-hist(x, 
-     main="Merhaba Histogram!", 
-     col="red")
+hist(x, main <- "Merhaba Histogram!", col <- "red")
 
 # -------------------------------------
 # Dagilim Grafigi (Scatter Plot)

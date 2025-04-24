@@ -8,7 +8,7 @@
 # Genellikle bir tabloya ait sütunlar vektör olarak temsil edilir.
 
 x <- c(1, 3, 2, 10, 5)    # Sayılardan oluşan bir vektör oluştur
-x = c(1, 3, 2, 10, 5)     # Alternatif atama yöntemi
+x <- c(1, 3, 2, 10, 5)     # Alternatif atama yöntemi
 x                         # Vektörü yazdır
 
 y <- 1:5                  # 1'den 5'e kadar ardışık sayılardan oluşan vektör
@@ -37,7 +37,7 @@ a <- 1                    # Tek değerli bir vektör de mümkündür
 
 x <- c(1, 2, 3, 4)
 y <- c(4, 5, 6, 7)
-m1 <- cbind(x, y)         # İki vektörü sütunlar halinde birleştirerek matris oluştur
+m1 <- cbind(x, y) # İki vektörü sütunlar halinde birleştirerek matris oluştur
 m1
 
 t(m1)                     # Matrisin transpozunu al
@@ -73,7 +73,8 @@ mydata[, 2:4]                 # 2, 3 ve 4. sütunları seç
 mydata[, c("chr", "start")] # Belirtilen sütunları ada göre seç
 mydata$start                 # 'start' sütununu seç
 mydata[c(1, 3), ]            # 1. ve 3. satırları al
-mydata[mydata$start > 400, ] # 'start' değeri 400'den büyük olan satırları filtrele
+mydata[mydata$start > 400, ]
+# 'start' değeri 400'den büyük olan satırları filtrele
 
 # -------------------------------------
 # LİSTELER (Lists)
@@ -101,9 +102,9 @@ w$age             # $ işareti ile erişim (yaş bilgisi)
 # Özellikle istatistiksel modellerde önemlidir.
 
 features <- c("promoter", "exon", "intron")
-f.feat <- factor(features)
-f.feat
+f_feat <- factor(features)
+f_feat
 
-# NOT: Eğer read.table() veya data.frame() ile veri okurken karakter sütunlarının faktör olarak gelmesini istemiyorsanız,
+# NOT: Eğer read.table() veya data.frame() ile veri okurken karakter
+# sütunlarının faktör olarak gelmesini istemiyorsanız,
 # stringsAsFactors = FALSE parametresini kullanın.
-

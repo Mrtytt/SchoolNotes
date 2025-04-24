@@ -1,70 +1,105 @@
-# Demetler 
-# Listeler için geçerli olan pek çok özellik demet için de geçerli
-# Daha az yer kaplar,daha hızlı
-# Değiştirilemezler, ve hashable'dırlar yani sözlüğe çevrilebilir. Listelerde bu özellik yoktur.
+# Python Değişken Kapsamı, enumerate, map ve Fonksiyonlar Özeti
 
-t = (10, 'Ali',12.5)
-print(type(t))
+# enumerate kullanımı
+a = [10, 20, 30, 40, 50]
+print(type(enumerate(a)))  # enumerate objesi
+d = {'ali': 10, 'hakan': 20, 'gül': 30}
+print(list(enumerate(d)))  # [(0, 'ali'), (1, 'hakan'), (2, 'gül')]
 
-print("-----------------------------")
+# En büyük elemanın indeksini bulma
+a = [12, 15, 38, 84, 42]
+max_index = 0
+for i in range(1, len(a)):
+    if a[i] > a[max_index]:
+        max_index = i
+print("Max indeks =", max_index)
 
-t = (10, 'Ali',12.5,[1,2,3])
-print(t)
-print(t[2]) # 12.5
+# enumerate ile en büyük eleman
+e = enumerate(a)
+max_val = next(e)
+for t in e:
+    if t[1] > max_val[1]:
+        max_val = t
+print("Max indeks =", max_val[0])
 
-print("-----------------------------")
+# Global ve yerel değişkenler
+x = 10
+def foo(): print(x)
+foo()
+x = 20
+foo()
+print(x)
 
-t1 = (1,2,'ali',12.4,78)
-l1 = list(t)
-print(type(l1))
+def local_example():
+    y = 20
+    print(y)
+local_example()
 
-print("-----------------------------")
+# Global kullanımı
+x = 100
+def local_x():
+    x = 200
+    print(x)
+local_x()
+print(x)
 
-l2 = [1,2,3,4,5]
-t2 = tuple(l2)
-print(type(t2))
+x = 10
+def update_global():
+    global x
+    x = 20
+update_global()
+print(x)  # 20
 
-print("-----------------------------")
+# map fonksiyonu kullanımı
+a = [1, 2, 3]
+def square(n): return n*n
+print(list(map(square, a)))
+print([i*i for i in a])  # aynı işlemin comprehension hali
 
-point = (10,2)
-print(point)
-(x,y) = point # unpacking
-print(x,y) 
+# İç içe fonksiyonlar ve scope
+def outer():
+    val = 10
+    def inner():
+        print('val =', val)
+    inner()
+outer()
 
-print("-----------------------------")
+# nonlocal kullanımı
+def example():
+    x = 10
+    def inner():
+        nonlocal x
+        x = 20
+    inner()
+    print(x)
+example()  # 20
 
-t3 = (10,'ali',12.5)
-(a,b,c) = t3
-print(a,b,c)
+# global & nonlocal farkları
+x = 10
+def g():
+    global x
+    x = 20
+    def inner():
+        global x
+        x = 30
+    inner()
+g()
+print(x)  # 30
 
-print("-----------------------------")
-
-a = 10
-b = 20
-b,a = a,b
-print(a,b)
-
-print("-----------------------------")
-
-t = 1,2,3
-print(t*2) # 1,2,3,1,2,3
-
-print("-----------------------------")
-
-t = (10,'Ahmet','Zeynep',12.3,103)
-print(10 in t) # True
-print(200 not in t)
-
-print("-----------------------------")
-
-# Kümeler (Sets)
-# Farklı elemanlardan oluşan topluluklardır.
-# Aynı elemanlar tekrar edebilir ancak farklı olan elemanlardan bir küme oluşturur.
-# Elemanları hashable olmalı list ve set'ler hashlenemez.
-# n. kavram diye bir şey yok öncelik sonralık ilişkisi yoktur.
-# sadece set() komutu ile boş küme oluşturur.
-# * + işlemleri yapılmaz.
-
-s = {1,2,3,4,5}
-print(s)
-
+# Asal sayıları yazdıran fonksiyon
+def writePrimes(n):
+    def isPrime(val):
+        if val < 2:
+            return False
+        if val == 2:
+            return True
+        if val % 2 == 0:
+            return False
+        for i in range(3, int(val ** 0.5) + 1, 2):
+            if val % i == 0:
+                return False
+        return True
+    for i in range(2, n+1):
+        if isPrime(i):
+            print(i, end=' ')
+writePrimes(30)
