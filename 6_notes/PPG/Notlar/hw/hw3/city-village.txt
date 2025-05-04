@@ -1,0 +1,10 @@
+Ankara => Çankaya, Keçiören, Yenimahalle, Mamak, Sincan
+İstanbul => Kadıköy, Beşiktaş, Üsküdar, Bakırköy, Şişli
+İzmir => Konak, Karşıyaka, Bornova, Buca, Bayraklı
+Bursa => Osmangazi, Yıldırım, Nilüfer, Gürsu, Kestel
+Antalya => Muratpaşa, Kepez, Konyaaltı, Alanya, Manavgat
+Adana => Seyhan, Yüreğir, Çukurova, Sarıçam, Ceyhan
+Konya => Selçuklu, Meram, Karatay, Ereğli, Akşehir
+Gaziantep => Şahinbey, Şehitkamil, Oğuzeli, Nizip, Araban
+Samsun => İlkadım, Atakum, Canik, Tekkeköy, Bafra
+Trabzon => Ortahisar, Akçaabat, Arsin, Yomra, Vakfıkebir
