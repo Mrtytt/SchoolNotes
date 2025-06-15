@@ -2,8 +2,6 @@
 Bu projenin temel amacı, günümüzde oyun dünyasında ve grafik teknolojilerinde sıkça kullanılan Ray Tracing yani ışın izleme yönteminin, DirectX 12 ile nasıl uygulandığını detaylı bir şekilde incelemekti. Microsoft’un DirectX 12 API’si ile birlikte gelen bu teknoloji, grafiklerde fiziksel gerçekçiliği oldukça ileri bir seviyeye taşıyor. 
 
 Bu kapsamda, öncelikle DirectX 12’nin grafik programlamadaki yeri üzerinde durduk. Ardından, Ray Tracing’in geleneksel rasterization yöntemlerinden hangi yönlerle ayrıldığını ele aldık. Bununla birlikte, DirectX Ray Tracing yani DXR teknolojisinin yapısını oluşturan temel bileşenleri inceleyerek, ışığın sahne içinde nasıl izlendiğini ve sahnedeki objelerle nasıl etkileşim kurduğunu anlamaya çalıştık.
-
-Ayrıca NVIDIA RTX serisi kartların bu teknolojiye donanımsal olarak nasıl destek verdiğini ve bu sayede grafiklerin nasıl daha hızlı ve daha gerçekçi hale geldiğini örnek uygulamalarla gözlemledik. Projede yer alan demo sahnelerle birlikte, yansıma, gölge ve ışık kırılması gibi efektlerin gerçek zamanlı nasıl işlendiğini görsel olarak da aktarmayı hedefledik.
 ## -------------------------------------------------------------
 
 ### 2. Proje Adımları
@@ -33,7 +31,8 @@ Ray tracing, geleneksel rasterization yöntemlerinden çok farklıdır çünkü 
 
 Geleneksel rasterization ise bu tür detayları doğrudan çizimle elde eder. Bu yöntemde gölgeler ya da yansımalar ekstra hesaplamalarla simüle edilir, bu da çoğu zaman doğallığı bozar. Ray tracing ise fizik kurallarına dayalı hesaplamalarla bu efektleri otomatik olarak oluşturur.
 
-6. DirectX 12 ile Ray Tracing (DXR)
+
+### 6. DirectX 12 ile Ray Tracing (DXR)
 DirectX Raytracing, yani DXR, Microsoft’un DirectX 12’ye entegre ettiği ray tracing uzantısıdır. Bu uzantı sayesinde geliştiriciler, ışığın sahne içinde nasıl davrandığını fiziksel olarak doğru biçimde simüle edebilirler. Bu da sahnelerin çok daha gerçekçi görünmesini sağlar.
 
 DXR teknolojisinin üç temel bileşeni vardır: Acceleration Structures, Shader Binding Table ve çeşitli shader türleri. Acceleration Structures, sahnedeki nesnelerle ışınların çarpışma hesaplarını hızlıca yapabilmek için oluşturulan veri yapılarıdır. Shader Binding Table ise hangi ışının hangi shader tarafından işleneceğini belirleyen bir haritadır. Ray Generation, Miss ve Hit Shader’ları da ışınların sahnede nasıl yol aldığını, nereye çarpacağını ve nasıl bir sonuç döndüreceğini belirler.
