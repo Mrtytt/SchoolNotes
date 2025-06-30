@@ -1,2 +1,0 @@
-# SchoolNotes
-My school notes
